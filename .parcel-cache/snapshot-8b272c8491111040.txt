@@ -1,7 +1,6 @@
-119
+120
 73C:\Users\beanb\Careerfoundry\myflix-client\node_modules\process\.eslintrc133732517944116749 0
 105C:\Users\beanb\Careerfoundry\myflix-client\node_modules\react\cjs\react-jsx-dev-runtime.production.min.js133732514085386617 0
-53C:\Users\beanb\Careerfoundry\myflix-client\index.html133732514733147416 0
 63C:\Users\beanb\Careerfoundry\myflix-client\node_modules\process133732517944116749 1
 76C:\Users\beanb\Careerfoundry\myflix-client\node_modules\process\package.json133732517943925762 0
 109C:\Users\beanb\Careerfoundry\myflix-client\node_modules\react-dom\umd\react-dom-server.browser.development.js133732514080692093 0
@@ -24,7 +23,6 @@
 68C:\Users\beanb\Careerfoundry\myflix-client\node_modules\loose-envify133732514085001362 1
 74C:\Users\beanb\Careerfoundry\myflix-client\node_modules\.package-lock.json133732517944187523 0
 53C:\Users\beanb\Careerfoundry\myflix-client\.gitignore133732508013410068 0
-52C:\Users\beanb\Careerfoundry\myflix-client\index.jsx133732514228913313 0
 112C:\Users\beanb\Careerfoundry\myflix-client\node_modules\react-dom\umd\react-dom-server.browser.production.min.js133732514080712173 0
 69C:\Users\beanb\Careerfoundry\myflix-client\node_modules\react-dom\cjs133732514084102149 1
 113C:\Users\beanb\Careerfoundry\myflix-client\node_modules\scheduler\cjs\scheduler-unstable_post_task.development.js133732514079812221 0
@@ -42,6 +40,7 @@
 65C:\Users\beanb\Careerfoundry\myflix-client\node_modules\react-dom133732514084287379 1
 96C:\Users\beanb\Careerfoundry\myflix-client\node_modules\react-dom\cjs\react-dom.profiling.min.js133732514084137226 0
 65C:\Users\beanb\Careerfoundry\myflix-client\node_modules\scheduler133732514079874456 1
+57C:\Users\beanb\Careerfoundry\myflix-client\src\index.html133732514733147416 0
 79C:\Users\beanb\Careerfoundry\myflix-client\node_modules\react-dom\test-utils.js133732514084287379 0
 69C:\Users\beanb\Careerfoundry\myflix-client\node_modules\scheduler\cjs133732514079837328 1
 97C:\Users\beanb\Careerfoundry\myflix-client\node_modules\scheduler\cjs\scheduler.production.min.js133732514079849371 0
@@ -118,3 +117,5 @@
 73C:\Users\beanb\Careerfoundry\myflix-client\node_modules\.bin\loose-envify133732514086028510 0
 77C:\Users\beanb\Careerfoundry\myflix-client\node_modules\.bin\loose-envify.cmd133732514086028510 0
 77C:\Users\beanb\Careerfoundry\myflix-client\node_modules\.bin\loose-envify.ps1133732514086028510 0
+46C:\Users\beanb\Careerfoundry\myflix-client\src133732606994725610 1
+56C:\Users\beanb\Careerfoundry\myflix-client\src\index.jsx133732514228913313 0
