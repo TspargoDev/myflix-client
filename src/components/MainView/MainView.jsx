@@ -1,7 +1,7 @@
 // src/components/MainView/MainView.jsx
 import React, { useState } from 'react';
 import MovieCard from '../MovieCard/MovieCard';
-import MovieView from '../MovieView/MovieView.jsx';
+import MovieView from '../MovieView/Movieview.jsx';
 
 const MainView = () => {
   const [movies] = useState([
@@ -16,6 +16,12 @@ const MainView = () => {
     setSelectedMovie(movie);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Clear token
+    setIsLoggedIn(false); // Update your state to show login view
+    };
+    
+    
   const onBackClick = () => {
     setSelectedMovie(null);
   };
@@ -35,4 +41,19 @@ const MainView = () => {
   );
 };
 
+return (
+    <div>
+      {isLoggedIn ? (
+        <div>
+          {movies.map(movie => (
+            <MovieCard key={movie.id} movie={movie} onMovieClick={onMovieClick} />
+          ))}
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      ) : (
+        <LoginView onLogin={handleLogin} /> // Pass the login function as a prop
+      )}
+    </div>
+  );
+  
 export default MainView;
