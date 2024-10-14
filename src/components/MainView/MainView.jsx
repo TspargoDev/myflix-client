@@ -1,21 +1,43 @@
 // src/components/MainView/MainView.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import LoginView from '../LoginView/LoginView';
 import MovieCard from '../MovieCard/MovieCard';
-import MovieView from '../MovieView/MovieView.jsx';
+import MovieView from '../MovieView/Movieview.jsx';
 
 const MainView = () => {
-  const [movies] = useState([
-    { id: 1, title: 'Inception', description: 'A thief who steals corporate secrets ...', director: 'Christopher Nolan', genre: 'Sci-Fi', poster: 'path_to_inception_poster.jpg' },
-    { id: 2, title: 'The Matrix', description: 'A computer hacker learns from mysterious rebels ...', director: 'Lana Wachowski, Lilly Wachowski', genre: 'Action', poster: 'path_to_matrix_poster.jpg' },
-    { id: 3, title: 'Interstellar', description: 'A team of explorers travel through a wormhole ...', director: 'Christopher Nolan', genre: 'Adventure', poster: 'path_to_interstellar_poster.jpg' }
-  ]);
-  
+  const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
-  const onMovieClick = (movie) => {
-    setSelectedMovie(movie);
+  useEffect(() => {
+    const fetchMovies = async () => {
+      if (isLoggedIn) {
+        try {
+          const response = await fetch('', {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+          const data = await response.json();
+          setMovies(data);
+        } catch (error) {
+          console.error('Error fetching movies:', error);
+        }
+      }
+    };
+    fetchMovies();
+  }, [isLoggedIn]);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Clear token
+    setIsLoggedIn(false); // Update your state to show login view
+    };
+    
+    
   const onBackClick = () => {
     setSelectedMovie(null);
   };
@@ -35,4 +57,19 @@ const MainView = () => {
   );
 };
 
+return (
+    <div>
+      {isLoggedIn ? (
+        <div>
+          {movies.map(movie => (
+            <MovieCard key={movie.id} movie={movie} onMovieClick={onMovieClick} />
+          ))}
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      ) : (
+        <LoginView onLogin={handleLogin} /> // Pass the login function as a prop
+      )}
+    </div>
+  );
+  
 export default MainView;

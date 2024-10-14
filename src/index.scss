@@ -1,0 +1,15 @@
+@import '~bootstrap/scss/bootstrap';
+
+.custom-button {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+
+  &:hover {
+    background-color: #4cae4c;
+  }
+}
+
+.custom-card {
+  border-radius: 10px;
+  overflow: hidden;
+}
