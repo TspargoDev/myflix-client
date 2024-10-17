@@ -1,75 +1,104 @@
 // src/components/MainView/MainView.jsx
+// src/components/MainView/MainView.jsx
 import React, { useEffect, useState } from 'react';
-import LoginView from '../LoginView/LoginView';
+import { Col, Row } from 'react-bootstrap';
+import { BrowserRouter } from "react-router-dom";
+import LoginView from '../LoginView/login-view';
 import MovieCard from '../MovieCard/MovieCard';
-import MovieView from '../MovieView/Movieview.jsx';
+import MovieView from '../MovieView/Movieview';
+import SignupView from '../SignupView/signup-view';
 
 const MainView = () => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredMovies, setFilteredMovies] = useState(movies);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      if (isLoggedIn) {
-        try {
-          const response = await fetch('', {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          });
-          const data = await response.json();
-          setMovies(data);
-        } catch (error) {
-          console.error('Error fetching movies:', error);
-        }
+    if (!token) {
+      return;
+    }
+
+    fetch("", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, [token]);
+
+  //       setMovies(moviesFromApi);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    setFilteredMovies(
+      movies.filter((movie) =>
+        movie.Title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery, movies]);
+
+  if (!user) {
+        return (
+          <>
+            <LoginView onLoggedIn={(user, token) => {
+              setUser(user);
+              setToken(token);
+            }} />
+            or
+            <SignupView />
+          </>
+        );
       }
-    };
-    fetchMovies();
-  }, [isLoggedIn]);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
+  if (selectedMovie) {
+    return (
+      <MovieView
+        movie={selectedMovie}
+        onBackClick={() => setSelectedMovie(null)}
+      />
+    );
+  }
 
-  const handleLogout = () => {
-    localStorage.removeItem('token'); // Clear token
-    setIsLoggedIn(false); // Update your state to show login view
-    };
-    
-    
-  const onBackClick = () => {
-    setSelectedMovie(null);
-  };
+  if (movies.length === 0) {
+    return (
+      <>
+        <button
+          onClick={() => {
+            setUser(null);
+          }}
+        >
+          Logout
+        </button>
+        <div>The list is empty!</div>
+      </>
+    );
+  }
 
   return (
-    <div>
-      {selectedMovie ? (
-        <MovieView movie={selectedMovie} onBackClick={onBackClick} />
-      ) : (
-        <div>
-          {movies.map(movie => (
-            <MovieCard key={movie.id} movie={movie} onMovieClick={onMovieClick} />
-          ))}
-        </div>
-      )}
-    </div>
+    <BrowserRouter>
+      <Row>
+        {filteredMovies.map((movie) => (
+          <Col className = 'md5'>
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            onMovieClick={(newSelectedMovie) => {
+              setSelectedMovie(newSelectedMovie);
+            }}
+          />
+          </Col>
+        ))}
+        <button onClick={() => { setUser(null); setToken(null); 
+          localStorage.clear(); }}>Logout</button>
+      </Row>
+    </BrowserRouter>
   );
 };
-
-return (
-    <div>
-      {isLoggedIn ? (
-        <div>
-          {movies.map(movie => (
-            <MovieCard key={movie.id} movie={movie} onMovieClick={onMovieClick} />
-          ))}
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      ) : (
-        <LoginView onLogin={handleLogin} /> // Pass the login function as a prop
-      )}
-    </div>
-  );
-  
-export default MainView;

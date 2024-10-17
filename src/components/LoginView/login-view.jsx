@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 // src/components/LoginView/LoginView.jsx
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -10,9 +8,38 @@ const LoginView = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your login logic here
+
+    // Send login request to the API
+    try {
+      const response = await fetch('https://api.com/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          Username: username,
+          Password: password,
+        }),
+      });
+
+      // Parse the response from the server
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Store the token in localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        // Call the onLogin function to notify that login was successful
+        onLogin();
+      } else {
+        setError('Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError('Something went wrong. Please try again.');
+    }
   };
 
   return (
@@ -39,7 +66,8 @@ const LoginView = ({ onLogin }) => {
         />
       </Form.Group>
 
-      {/* Custom styled button */}
+      {error && <p className="text-danger">{error}</p>} {/* Display error message */}
+
       <Button className="custom-button" type="submit">
         Login
       </Button>
@@ -52,4 +80,3 @@ LoginView.propTypes = {
 };
 
 export default LoginView;
->>>>>>> Stashed changes
