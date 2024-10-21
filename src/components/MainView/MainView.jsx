@@ -24,7 +24,7 @@ const MainView = () => {
       return;
     }
 
-    fetch("", {
+        fetch("http://travismovieapi-7207728f28d4.herokuapp.com/movies", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then((response) => response.json())

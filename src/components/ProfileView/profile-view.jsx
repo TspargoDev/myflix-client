@@ -23,7 +23,7 @@ export const ProfileView = ({ movies }) => {
             Birthday: birthday
         };
 
-        fetch("", {
+        fetch("http://travismovieapi-7207728f28d4.herokuapp.com/login", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
