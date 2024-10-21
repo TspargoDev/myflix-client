@@ -16,9 +16,69 @@ const MainView = () => {
     setSelectedMovie(movie);
   };
 
+<<<<<<< Updated upstream
   const onBackClick = () => {
     setSelectedMovie(null);
   };
+=======
+    fetch("http://travismovieapi-7207728f28d4.herokuapp.com/movies", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, [token]);
+
+  //       setMovies(moviesFromApi);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    setFilteredMovies(
+      movies.filter((movie) =>
+        movie.Title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery, movies]);
+
+  if (!user) {
+        return (
+          <>
+            <LoginView onLoggedIn={(user, token) => {
+              setUser(user);
+              setToken(token);
+            }} />
+            or
+            <SignupView />
+          </>
+        );
+      }
+
+  if (selectedMovie) {
+    return (
+      <MovieView
+        movie={selectedMovie}
+        onBackClick={() => setSelectedMovie(null)}
+      />
+    );
+  }
+
+  if (movies.length === 0) {
+    return (
+      <>
+        <button
+          onClick={() => {
+            setUser(null);
+          }}
+        >
+          Logout
+        </button>
+        <div>The list is empty!</div>
+      </>
+    );
+  }
+>>>>>>> Stashed changes
 
   return (
     <div>
