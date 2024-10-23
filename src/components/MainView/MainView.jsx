@@ -5,7 +5,7 @@ import { Col, Row } from 'react-bootstrap';
 import { BrowserRouter } from "react-router-dom";
 import LoginView from '../LoginView/login-view';
 import MovieCard from '../MovieCard/MovieCard';
-import MovieView from '../MovieView/Movieview';
+import MovieView from '../MovieView/Movieview.jsx';
 import SignupView from '../SignupView/signup-view';
 
 const MainView = () => {
