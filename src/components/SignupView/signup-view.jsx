@@ -3,89 +3,100 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 export const SignupView = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    const [birthday, setBirthday] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [error, setError] = useState(null); // To store any signup errors
+  const [successMessage, setSuccessMessage] = useState(null); // For success message
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-        const data = {
-            Username: username,
-            Password: password,
-            Email: email,
-            Birthday: birthday
-        };
-        fetch("http://travismovieapi-7207728f28d4.herokuapp.com/users", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then((response) => {
-            if (response.ok) {
-                alert("Signup successful");
-                window.location.reload();
-            }else {
-                alert("Signup failed");
-            }
-        });
+    const data = {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
     };
 
-    return (
-        <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formUsername">
-          <Form.Label>
-            Username:
-          </Form.Label>
-          <Form.Control
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              minLength='4'
-            /> 
-        </Form.Group>
-        <Form.Group controlId="formPassword">
-          <Form.Label>
-            Password:
-          </Form.Label>
-            <Form.Control
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-        </Form.Group>
-        <Form.Group controlId="formEmail">
-        <Form.Label>
-            Email:
-        </Form.Label>
-            <Form.Control
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-        </Form.Group>
-        <Form.Group controlId="formBdate">
-        <Form.Label>
-            Birthday:
-        </Form.Label>
-            <Form.Control
-              type="date"
-              value={birthday}
-              onChange={(e) => setBirthday(e.target.value)}
-              required
-            />
-        </Form.Group>
+    fetch("http://travismovieapi-7207728f28d4.herokuapp.com/users", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Signup failed. Please check your inputs.");
+        }
+      })
+      .then((data) => {
+        setSuccessMessage("Signup successful! Please login.");
+        setError(null);  // Clear any existing error messages
+        // Optionally redirect to login page or show a success message
+      })
+      .catch((error) => {
+        setError(error.message); // Set error message if signup fails
+        setSuccessMessage(null);  // Clear success message if there's an error
+      });
+  };
 
-        <Button variant="primary" type="submit">
-            Signup
-        </Button>
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Form.Group controlId="formUsername">
+        <Form.Label>Username:</Form.Label>
+        <Form.Control
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          minLength="4"
+        />
+      </Form.Group>
 
-        </Form>
-      );
+      <Form.Group controlId="formPassword">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          minLength="6" // Enforce minimum password length
+        />
+      </Form.Group>
+
+      <Form.Group controlId="formEmail">
+        <Form.Label>Email:</Form.Label>
+        <Form.Control
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group controlId="formBdate">
+        <Form.Label>Birthday:</Form.Label>
+        <Form.Control
+          type="date"
+          value={birthday}
+          onChange={(e) => setBirthday(e.target.value)}
+          required
+        />
+      </Form.Group>
+
+      {error && <p className="text-danger">{error}</p>} {/* Display error message */}
+      {successMessage && <p className="text-success">{successMessage}</p>} {/* Display success message */}
+
+      <Button variant="primary" type="submit">
+        Signup
+      </Button>
+    </Form>
+  );
 };
+
 export default SignupView;
