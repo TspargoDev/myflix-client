@@ -98,3 +98,5 @@ const MainView = () => {
     </BrowserRouter>
   );
 };
+
+export default MainView;
