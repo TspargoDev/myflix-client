@@ -95,3 +95,4 @@ export const ProfileView = ({ movies }) => {
         </Form>
     );
 };
+export default ProfileView;
