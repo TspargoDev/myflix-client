@@ -1,9 +1,8 @@
-// src/components/LoginView/LoginView.jsx
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap'; // Import Button from react-bootstrap
+import { Button, Form } from 'react-bootstrap';
 
-const LoginView = ({ onLogin }) => {
+const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -26,13 +25,13 @@ const LoginView = ({ onLogin }) => {
       // Parse the response from the server
       if (response.ok) {
         const data = await response.json();
-        
-        // Store the token in localStorage
+
+        // Store the token and user in localStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        
-        // Call the onLogin function to notify that login was successful
-        onLogin();
+
+        // Notify the parent component of successful login
+        onLoggedIn(data.user, data.token);
       } else {
         setError('Login failed. Please check your credentials.');
       }
@@ -76,7 +75,7 @@ const LoginView = ({ onLogin }) => {
 };
 
 LoginView.propTypes = {
-  onLogin: PropTypes.func.isRequired,
+  onLoggedIn: PropTypes.func.isRequired,
 };
 
 export default LoginView;
