@@ -120,3 +120,5 @@ export const MovieView = ({ movies, onBackClick }) => {
     </>
   );
 };
+
+export default MovieView;
