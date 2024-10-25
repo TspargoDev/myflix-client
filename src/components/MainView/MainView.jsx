@@ -23,7 +23,7 @@ const MainView = () => {
   useEffect(() => {
     if (!token) return;
 
-    fetch("http://travismovieapi-7207728f28d4.herokuapp.com/movies", {
+    fetch("https://travismovie-api-f55e5b0e3ed5.herokuapp.com/movies", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then((response) => response.json())
