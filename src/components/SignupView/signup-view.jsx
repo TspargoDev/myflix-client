@@ -14,10 +14,10 @@ export const SignupView = () => {
     event.preventDefault();
 
     const data = {
-      Username: Username,
-      Password: Password,
-      Email: Email,
-      Birthday: Birthday
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
     };
 
     fetch("https://travismovie-api-f55e5b0e3ed5.herokuapp.com/testuser", {
@@ -51,7 +51,7 @@ export const SignupView = () => {
         <Form.Label>Username:</Form.Label>
         <Form.Control
           type="text"
-          value={Username}
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
           minLength="4"
@@ -62,7 +62,7 @@ export const SignupView = () => {
         <Form.Label>Password:</Form.Label>
         <Form.Control
           type="password"
-          value={Password}
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength="6" // Enforce minimum password length
@@ -73,7 +73,7 @@ export const SignupView = () => {
         <Form.Label>Email:</Form.Label>
         <Form.Control
           type="email"
-          value={Email}
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
@@ -83,7 +83,7 @@ export const SignupView = () => {
         <Form.Label>Birthday:</Form.Label>
         <Form.Control
           type="date"
-          value={Birthday}
+          value={birthday}
           onChange={(e) => setBirthday(e.target.value)}
           required
         />
