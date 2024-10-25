@@ -51,7 +51,7 @@ export const SignupView = () => {
         <Form.Label>Username:</Form.Label>
         <Form.Control
           type="text"
-          value={username}
+          value={Username}
           onChange={(e) => setUsername(e.target.value)}
           required
           minLength="4"
@@ -62,7 +62,7 @@ export const SignupView = () => {
         <Form.Label>Password:</Form.Label>
         <Form.Control
           type="password"
-          value={password}
+          value={Password}
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength="6" // Enforce minimum password length
@@ -73,7 +73,7 @@ export const SignupView = () => {
         <Form.Label>Email:</Form.Label>
         <Form.Control
           type="email"
-          value={email}
+          value={Email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
@@ -83,7 +83,7 @@ export const SignupView = () => {
         <Form.Label>Birthday:</Form.Label>
         <Form.Control
           type="date"
-          value={birthday}
+          value={Birthday}
           onChange={(e) => setBirthday(e.target.value)}
           required
         />
