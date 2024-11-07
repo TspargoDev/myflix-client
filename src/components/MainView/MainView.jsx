@@ -48,18 +48,19 @@ const MainView = () => {
   // If no user, show the login/signup view
   if (!user) {
     return (
-      <>
+      <div className="auth-container">
         <LoginView onLoggedIn={(user, token) => {
           setUser(user);
           setToken(token);
           localStorage.setItem('user', JSON.stringify(user));
           localStorage.setItem('token', token);
         }} />
-        or
+        <span className="separator">or</span>
         <SignupView />
-      </>
+      </div>
     );
   }
+  
 
   // If a movie is selected, show MovieView
   if (selectedMovie) {
