@@ -52,9 +52,8 @@ myFlix is designed for movie enthusiasts to easily access, explore, and save inf
 
 ```bash
 git clone https://github.com/yourusername/myflix-client.git
-```
-
 cd myflix-client
+```
 
 **Install Dependencies**
 
