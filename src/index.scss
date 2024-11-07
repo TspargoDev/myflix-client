@@ -72,6 +72,26 @@ button {
   }
 }
 
+.separator {
+  display: inline-block;
+  margin: 10px 0;  // Adjust top and bottom spacing
+  color: #333;  // Subtle gray for minimalism
+  font-weight: 500;  // Semi-bold for subtle emphasis
+  text-align: center;
+
+  &::before,
+  &::after {
+    content: "";  // Empty content for decorative lines
+    display: inline-block;
+    width: 30px;  // Width of the line
+    height: 1px;  // Thickness of the line
+    background-color: #dcdcdc;  // Light gray line
+    vertical-align: middle;
+    margin: 0 10px;  // Space around the "or" text
+  }
+}
+
+
 // Form Styles
 form {
   background: #fff;
