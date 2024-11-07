@@ -1,2 +1,1 @@
-# myflix-client
- 
+# Myflix-Client
