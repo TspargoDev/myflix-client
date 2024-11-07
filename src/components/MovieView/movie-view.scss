@@ -1,63 +1,75 @@
 .back-button {
-  padding: 6px 18px;  /* Slightly increase padding for better aesthetics */
-  color: whitesmoke;
-  background-color: rgb(15, 76, 161);
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Subtle shadow for depth */
+  padding: 6px 18px;
+  color: #000;  // Black text for button
+  background-color: transparent;  // Transparent background
+  border: 1px solid #000;  // Thin black border
+  border-radius: 3px;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  
+
   &:hover {
-    background-color: rgb(10, 50, 120);  /* Darker on hover */
-    transform: translateY(-2px);  /* Minimal lift effect on hover */
+    background-color: #333;  // Darker gray on hover
+    color: #fff;  // White text on hover
+    transform: translateY(-2px);
     cursor: pointer;
   }
 }
 
 .nav {
-  color: aliceblue;
-  font-weight: 600;  /* Make the nav font weight bold */
+  color: #000;
+  font-weight: 500;  // Reduce weight for minimalism
 }
 
 .movie-container {
   max-width: 800px;
-  margin: 0 auto;  /* Center the movie content */
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;  /* Light background for contrast */
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);  /* Soft shadow around the card */
+  background-color: #fff;  // White background
+  border: 1px solid #dcdcdc;  // Thin light-gray border
+  border-radius: 3px;  // Minimal rounding
 }
 
 .movie-container img {
-  max-width: 100%;  /* Ensure image is fully responsive */
+  max-width: 100%;
   margin-bottom: 20px;
-  border-radius: 8px;  /* Rounded corners for the image */
+  border-radius: 3px;  // Minimal rounding
+  border: 1px solid #dcdcdc;  // Thin border around images
 }
 
 .list-group-item {
-  background-color: #ffffff;  /* Clean white background */
-  border: none;  /* Remove borders for a cleaner look */
+  background-color: transparent;  // Transparent for minimal look
+  border: 1px solid #dcdcdc;  // Thin light-gray border
   padding: 10px 15px;
   font-size: 1rem;
   line-height: 1.5;
-  border-radius: 4px;  /* Slight rounding */
+  border-radius: 3px;
   margin-bottom: 10px;
-  color: #333;  /* Neutral text color */
+  color: #333;  // Dark gray for neutral text color
 }
 
 h5 {
-  color: #0f4ca1;  /* Consistent color for headings */
+  color: #000;  // Black for headings
   margin-bottom: 10px;
-  font-weight: 500;
+  font-weight: 400;  // Lighter font weight
 }
 
 strong {
-  color: #555;  /* Softer color for strong tags */
+  color: #555;  // Softer gray for strong tags
 }
 
 button {
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 400;  // Lighter font weight
+  border: 1px solid #000;  // Thin black border
+  background: transparent;
+  color: #000;
+  border-radius: 3px;
+  padding: 8px 12px;
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover {
+    background-color: #000;  // Black background on hover
+    color: #fff;  // White text on hover
+  }
 }
 
 @media (max-width: 768px) {
