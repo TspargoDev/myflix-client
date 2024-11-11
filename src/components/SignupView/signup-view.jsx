@@ -94,7 +94,7 @@ export const SignupView = () => {
       {successMessage && <p className="text-success">{successMessage}</p>} {/* Display success message */}
 
       <Button variant="primary" type="submit">
-        Signup
+        Sign Up
       </Button>
     </Form>
   );
