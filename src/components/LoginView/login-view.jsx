@@ -17,8 +17,8 @@ const LoginView = ({ onLoggedIn }) => {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          Username: Username,
-          Password: Password,
+          Username: username,
+          Password: password,
         }),
       });
 
@@ -47,7 +47,7 @@ const LoginView = ({ onLoggedIn }) => {
         <Form.Label>Username</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Enter username"
+          placeholder="Enter Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
