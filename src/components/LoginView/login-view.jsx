@@ -17,8 +17,8 @@ const LoginView = ({ onLoggedIn }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          Username: Username,
-          Password: Password,
+          username: Username,
+          password: Password,
         }),
       });
 
