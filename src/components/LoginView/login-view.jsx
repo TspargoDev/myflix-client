@@ -13,7 +13,7 @@ const LoginView = ({ onLoggedIn }) => {
 
     // Send login request to the API
     try {
-      const response = await fetch('http://travismovieapi-7207728f28d4.herokuapp.com/users', {
+      const response = await fetch('https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
