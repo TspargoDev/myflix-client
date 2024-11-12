@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
 const LoginView = ({ onLoggedIn }) => {
-  const [Username, setUsername] = useState('');
-  const [Password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   // Function to handle form submission
@@ -17,8 +17,8 @@ const LoginView = ({ onLoggedIn }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          Username: Username,
-          Password: Password,
+          Username: username,
+          Password: password,
         }),
       });
 
