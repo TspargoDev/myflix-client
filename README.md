@@ -76,4 +76,4 @@ Open your browser and go to http://localhost:3000.
 - Frontend: React, Bootstrap, React Router, Redux
 - Backend: (Previously built) Node.js and Express REST API with MongoDB
 
-Enjoy browsing movies with myFlix!
+**Enjoy browsing movies with myFlix!**
