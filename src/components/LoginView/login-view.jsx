@@ -33,7 +33,7 @@ const LoginView = ({ onLoggedIn }) => {
         // Notify the parent component of successful login
         onLoggedIn(data.user, data.token);
       } else {
-        setError('Login failed. Please check your credentials.');
+        setError(response);
       }
     } catch (error) {
       console.error('Error during login:', error);
