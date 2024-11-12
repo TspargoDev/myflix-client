@@ -3,29 +3,27 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
 const LoginView = ({ onLoggedIn }) => {
-  const [Username, setUsername] = useState('');
-  const [Password, setPassword] = useState('');
+  const [username, setUsername] = useState(''); // lowercase variable names
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Send login request to the API
     try {
       const response = await fetch('https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          username: Username,
-          password: Password,
+          username: username, // consistent lowercase fields for username and password
+          password: password,
         }),
       });
 
-      // Parse the response from the server
       if (response.ok) {
         const data = await response.json();
-
+        
         // Store the token and user in localStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
@@ -33,6 +31,8 @@ const LoginView = ({ onLoggedIn }) => {
         // Notify the parent component of successful login
         onLoggedIn(data.user, data.token);
       } else {
+        const errorText = await response.text(); // Log server response for debugging
+        console.error('Server error response:', errorText);
         setError('Login failed. Please check your credentials.');
       }
     } catch (error) {
