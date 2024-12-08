@@ -10,40 +10,44 @@ export const SignupView = () => {
   const [error, setError] = useState(null); // To store any signup errors
   const [successMessage, setSuccessMessage] = useState(null); // For success message
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-
     const data = {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday
+      username, // Consistent camelCase property names
+      password,
+      email,
+      birthday,
     };
 
-    fetch("https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Signup failed. Please check your inputs.");
-        }
-      })
-      .then((data) => {
-        setSuccessMessage("Signup successful! Please login.");
-        setError(null);  // Clear any existing error messages
-        // Optionally redirect to login page or show a success message
-      })
-      .catch((error) => {
-        setError(error.message); // Set error message if signup fails
-        setSuccessMessage(null);  // Clear success message if there's an error
+    try {
+      const response = await fetch("https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || "Signup failed. Please check your inputs.");
+      }
+
+      const responseData = await response.json();
+      setSuccessMessage("Signup successful! Please login.");
+      setError(null);
+
+      // Optionally clear form fields
+      setUsername("");
+      setPassword("");
+      setEmail("");
+      setBirthday("");
+    } catch (error) {
+      console.error("Error during signup:", error);
+      setError(error.message);
+      setSuccessMessage(null);
+    }
   };
 
   return (
@@ -56,7 +60,9 @@ export const SignupView = () => {
           onChange={(e) => setUsername(e.target.value)}
           required
           minLength="4"
+          placeholder="Enter a username"
         />
+        <Form.Text className="text-muted">Must be at least 4 characters long.</Form.Text>
       </Form.Group>
 
       <Form.Group controlId="formPassword">
@@ -66,8 +72,10 @@ export const SignupView = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          minLength="6" // Enforce minimum password length
+          minLength="6"
+          placeholder="Enter a secure password"
         />
+        <Form.Text className="text-muted">Must be at least 6 characters long.</Form.Text>
       </Form.Group>
 
       <Form.Group controlId="formEmail">
@@ -77,6 +85,7 @@ export const SignupView = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          placeholder="Enter your email address"
         />
       </Form.Group>
 
@@ -101,3 +110,4 @@ export const SignupView = () => {
 };
 
 export default SignupView;
+
