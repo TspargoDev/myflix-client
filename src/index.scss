@@ -1,6 +1,6 @@
 // Color Variables
 $primary: #000; // Black for primary color
-$body-bg: #f7f7f7; // Light gray for body background
+$body-bg: #FFFDD0; // Light gray for body background
 $color: #000; // Black text color
 $border-color: #dcdcdc; // Light gray border color
 $focus-color: #333; // Darker shade for focus
@@ -37,7 +37,7 @@ h3 {
   margin: 20px auto;
   text-align: center;
   max-width: 400px;
-  background-color: #fff;
+  background-color: #FFFDD0;
   border: 1px solid $border-color; // Thin border instead of shadow
   border-radius: 3px; // Rounded corners
   transition: transform 0.2s;
