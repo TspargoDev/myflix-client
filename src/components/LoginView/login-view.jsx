@@ -3,27 +3,31 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
 const LoginView = ({ onLoggedIn }) => {
-  const [Username, setUsername] = useState(''); // lowercase variable names
-  const [Password, setPassword] = useState('');
+  const [username, setUsername] = useState(''); // Changed to camelCase
+  const [password, setPassword] = useState(''); // Changed to camelCase
   const [error, setError] = useState('');
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const loginData = {
+      username, // Matching server's expected keys
+      password,
+    };
+
+    console.log('Payload being sent:', JSON.stringify(loginData)); // Debugging payload
+
     try {
       const response = await fetch('https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: Username, 
-          password: Password,
-        }),
+        body: JSON.stringify(loginData),
       });
 
       if (response.ok) {
         const data = await response.json();
-        
+
         // Store the token and user in localStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
@@ -48,7 +52,7 @@ const LoginView = ({ onLoggedIn }) => {
         <Form.Control
           type="text"
           placeholder="Enter Username"
-          value={Username}
+          value={username} // Updated to use camelCase
           onChange={(e) => setUsername(e.target.value)}
           required
         />
@@ -59,7 +63,7 @@ const LoginView = ({ onLoggedIn }) => {
         <Form.Control
           type="password"
           placeholder="Password"
-          value={Password}
+          value={password} // Updated to use camelCase
           onChange={(e) => setPassword(e.target.value)}
           required
         />
