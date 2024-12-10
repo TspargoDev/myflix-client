@@ -12,8 +12,8 @@ const LoginView = ({ onLoggedIn }) => {
     e.preventDefault();
 
     const loginData = {
-      username, // Matching server's expected keys
-      password,
+      Username: username, // Matching server's expected keys
+      Password: password,
     };
 
     console.log('Payload being sent:', JSON.stringify(loginData)); // Debugging payload
