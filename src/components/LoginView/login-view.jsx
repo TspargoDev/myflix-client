@@ -19,7 +19,7 @@ const LoginView = ({ onLoggedIn }) => {
     console.log('Payload being sent:', JSON.stringify(loginData)); // Debugging payload
 
     try {
-      const response = await fetch('https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users', {
+      const response = await fetch('https://travismovie-api-f55e5b0e3ed5.herokuapp.com/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginData),
