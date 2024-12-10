@@ -14,10 +14,10 @@ export const SignupView = () => {
     event.preventDefault();
 
     const data = {
-      username, // Consistent camelCase property names
-      password,
-      email,
-      birthday,
+      Username: username, // Consistent camelCase property names
+      Password: password,
+      Email: email,
+      Birthday: birthday,
     };
 
     try {
