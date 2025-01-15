@@ -14,24 +14,29 @@ export const SignupView = () => {
     event.preventDefault();
 
     const data = {
-      Username: username, // Consistent camelCase property names
-      Password: password,
-      Email: email,
-      Birthday: birthday,
+      username, 
+      password,
+      email,
+      birthday,
     };
 
     try {
-      const response = await fetch("https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         const errorResponse = await response.json();
-        throw new Error(errorResponse.message || "Signup failed. Please check your inputs.");
+        throw new Error(
+          errorResponse.message || "Signup failed. Please check your inputs."
+        );
       }
 
       const responseData = await response.json();
@@ -62,9 +67,10 @@ export const SignupView = () => {
           minLength="4"
           placeholder="Enter a username"
         />
-        <Form.Text className="text-muted">Must be at least 4 characters long.</Form.Text>
+        <Form.Text className="text-muted">
+          Must be at least 4 characters long.
+        </Form.Text>
       </Form.Group>
-
       <Form.Group controlId="formPassword">
         <Form.Label>Password:</Form.Label>
         <Form.Control
@@ -75,9 +81,10 @@ export const SignupView = () => {
           minLength="6"
           placeholder="Enter a secure password"
         />
-        <Form.Text className="text-muted">Must be at least 6 characters long.</Form.Text>
+        <Form.Text className="text-muted">
+          Must be at least 6 characters long.
+        </Form.Text>
       </Form.Group>
-
       <Form.Group controlId="formEmail">
         <Form.Label>Email:</Form.Label>
         <Form.Control
@@ -88,7 +95,6 @@ export const SignupView = () => {
           placeholder="Enter your email address"
         />
       </Form.Group>
-
       <Form.Group controlId="formBdate">
         <Form.Label>Birthday:</Form.Label>
         <Form.Control
@@ -98,10 +104,10 @@ export const SignupView = () => {
           required
         />
       </Form.Group>
-
-      {error && <p className="text-danger">{error}</p>} {/* Display error message */}
-      {successMessage && <p className="text-success">{successMessage}</p>} {/* Display success message */}
-
+      {error && <p className="text-danger">{error}</p>}{" "}
+      {/* Display error message */}
+      {successMessage && <p className="text-success">{successMessage}</p>}{" "}
+      {/* Display success message */}
       <Button variant="primary" type="submit">
         Sign Up
       </Button>
@@ -110,4 +116,3 @@ export const SignupView = () => {
 };
 
 export default SignupView;
-

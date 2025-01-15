@@ -1,47 +1,50 @@
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
 
 const LoginView = ({ onLoggedIn }) => {
-  const [username, setUsername] = useState(''); // Changed to camelCase
-  const [password, setPassword] = useState(''); // Changed to camelCase
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState(""); // Changed to camelCase
+  const [password, setPassword] = useState(""); // Changed to camelCase
+  const [error, setError] = useState("");
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const loginData = {
-      Username: username, // Matching server's expected keys
-      Password: password,
+      username,
+      password,
     };
 
-    console.log('Payload being sent:', JSON.stringify(loginData)); // Debugging payload
+    console.log("Payload being sent:", JSON.stringify(loginData)); // Debugging payload
 
     try {
-      const response = await fetch('https://travismovie-api-f55e5b0e3ed5.herokuapp.com/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginData),
-      });
+      const response = await fetch(
+        "https://travismovie-api-f55e5b0e3ed5.herokuapp.com/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(loginData),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
 
         // Store the token and user in localStorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
 
         // Notify the parent component of successful login
         onLoggedIn(data.user, data.token);
       } else {
         const errorText = await response.text(); // Log server response for debugging
-        console.error('Server error response:', errorText);
-        setError('Login failed. Please check your credentials.');
+        console.error("Server error response:", errorText);
+        setError("Login failed. Please check your credentials.");
       }
     } catch (error) {
-      console.error('Error during login:', error);
-      setError('Something went wrong. Please try again.');
+      console.error("Error during login:", error);
+      setError("Something went wrong. Please try again.");
     }
   };
 
@@ -57,7 +60,6 @@ const LoginView = ({ onLoggedIn }) => {
           required
         />
       </Form.Group>
-
       <Form.Group controlId="formPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
@@ -68,9 +70,8 @@ const LoginView = ({ onLoggedIn }) => {
           required
         />
       </Form.Group>
-
-      {error && <p className="text-danger">{error}</p>} {/* Display error message */}
-
+      {error && <p className="text-danger">{error}</p>}{" "}
+      {/* Display error message */}
       <Button className="custom-button" type="submit">
         Login
       </Button>
