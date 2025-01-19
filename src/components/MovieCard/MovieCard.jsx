@@ -1,31 +1,39 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, Card } from 'react-bootstrap';
+import './movie-view.scss';
 
-export const MovieCard = ({ movie, onMovieClick }) => {
-  return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Img 
-        variant="top" 
-        src={movie.imageURL || 'https://via.placeholder.com/150'} // Fallback image URL if none provided
-        alt={movie.Title}
-      />
-      <Card.Body>
-        <Card.Title>{movie.Title}</Card.Title> {/* Capitalized 'Title' as per API response */}
-        <Card.Text>{movie.Description}</Card.Text> {/* Capitalized 'Description' */}
-        <Button variant="primary" onClick={() => onMovieClick(movie)}>View Details</Button>
-      </Card.Body>
-    </Card>
-  );
-};
+export const MovieView = ({ movie, onBackClick }) => {
+  console.log(movie)
+    return (
+      <div>
+        <div>
+          <img src={movie.imageURL} />
+        </div>
+        <div>
+          <span>Title: </span>
+          <span>{movie.title}</span>
+        </div>
+        <div>
+            <span>Genre: </span>
+            <span>{movie.genre.name}</span>
+        </div>
+        <div>
+            <span>Description: </span>
+            <span>{movie.description}</span>
+        </div>
+        <div>
+          <span>Director: </span>
+          <span>{movie.director}</span>
+        </div>
+        <button onClick= {onBackClick}>Back</button>
 
-MovieCard.propTypes = {
-  movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired, // Ensure 'Title' is capitalized to match API response
-    Description: PropTypes.string.isRequired, // Ensure 'Description' is capitalized to match API response
-    imageURL: PropTypes.string,
-  }).isRequired,
-  onMovieClick: PropTypes.func.isRequired,
-};
+        <button 
+      onClick={onBackClick} 
+      className="back-button"
+      style={{ cursor: "pointer" }}
+    >
 
+      Back
+    </button>
+      </div>
+    );
+  };
 export default MovieCard;
