@@ -1,4 +1,3 @@
-import './movie-view.scss';
 
 export const MovieView = ({ movie, onBackClick }) => {
   console.log(movie)
@@ -35,5 +34,6 @@ export const MovieView = ({ movie, onBackClick }) => {
     </button>
       </div>
     );
-  };
+};
+  
 export default MovieCard;
