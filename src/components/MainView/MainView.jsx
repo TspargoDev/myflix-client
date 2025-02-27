@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { BrowserRouter } from "react-router-dom";
 import LoginView from '../LoginView/login-view';
 import MovieCard from '../MovieCard/MovieCard';
 import MovieView from '../MovieView/Movie-view';
@@ -26,76 +25,51 @@ const MainView = () => {
     fetch("https://travismovie-api-f55e5b0e3ed5.herokuapp.com/movies", {
       headers: { Authorization: `Bearer ${token}` }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setMovies(data); // Store the fetched movies
-      })
-      .catch((error) => {
-        console.error("Error fetching movies:", error);
-      });
-  }, [token]);
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const movies = data.map((doc) => ({
+        id: doc._id,
+        title: doc.title,
+        description: doc.description,
+      }));
+      setMovies(movies);
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+    });
+}, [token]);
 
-  // Filter movies based on the search query
-  useEffect(() => {
-    setFilteredMovies(
-      movies.filter((movie) =>
-        movie.Title.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
-  }, [searchQuery, movies]);
-
-  // If no user, show the login/signup view
-  if (!user) {
-    return (
-      <div className="auth-container">
-        <LoginView onLoggedIn={(user, token) => {
-          setUser(user);
-          setToken(token);
-          localStorage.setItem('user', JSON.stringify(user));
-          localStorage.setItem('token', token);
-        }} />
-        <span className="separator">or</span>
-        <SignupView />
-      </div>
-    );
-  }
-  
-
-  // If a movie is selected, show MovieView
-  if (selectedMovie) {
-    return (
-      <MovieView
-        movie={selectedMovie}
-        onBackClick={() => setSelectedMovie(null)}
-      />
-    );
-  }
-
-  // If there are no movies, show a message
-  if (movies.length === 0) {
-    return (
-      <>
-        <button
-          onClick={() => {
-            setUser(null);
-            setToken(null);
-            localStorage.clear();
+return (
+  <Row>
+    {!user ? (
+      <Col md={5}>
+        <LoginView
+          onLoggedIn={(user, token) => {
+            setUser(user);
+            setToken(token);
           }}
-        >
-          Logout
-        </button>
-        <div>The list is empty!</div>
-      </>
-    );
-  }
-
-  // Main view displaying movies
-  return (
-    <BrowserRouter>
-      <Row>
-        {filteredMovies.map((movie) => (
-          <Col className='md-5' key={movie._id || movie.id}> {/* Ensure the key is unique */}
+        />
+       
+        <SignupView />
+      </Col>
+    ) : selectedMovie ? (
+      <Col md={8}>
+        <MovieView
+          movie={selectedMovie}
+          onBackClick={() => setSelectedMovie(null)}
+        />
+      </Col>
+    ) : movies.length === 0 ? (
+      <div>The list is empty!</div>
+    ) : (
+      <>
+        {movies.map((movie) => (
+          <Col className="mb-5" key={movie.id} md={3}>
             <MovieCard
               movie={movie}
               onMovieClick={(newSelectedMovie) => {
@@ -104,14 +78,8 @@ const MainView = () => {
             />
           </Col>
         ))}
-        <button onClick={() => { 
-          setUser(null); 
-          setToken(null); 
-          localStorage.clear(); 
-        }}>Logout</button>
-      </Row>
-    </BrowserRouter>
-  );
+      </>
+    )}
+  </Row>
+);
 };
-
-export default MainView;
