@@ -8,10 +8,49 @@ import "./movie-view.scss";
 export const MovieView = ({ movies, onBackClick }) => {
   const { movieId } = useParams();
   const movieData = movies.find((b) => b._id === movieId);
+  const [currentMovie, setCurrentMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
   if (!movieData) {
     return <div>Movie not found</div>;
   }
+
+  const urlAPI 
+
+  const fetchMovie = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${urlAPI}/movies/${movieId}`);
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch movie data");
+      }
+      
+      const movie = await response.json();
+      setCurrentMovie(movie);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchMovie();
+}, [movieId]); // Re-run the effect if the movieId changes
+
+if (loading) {
+  return <div>Loading...</div>;
+}
+
+if (error) {
+  return <div>Error: {error}</div>;
+}
+
+if (!currentMovie) {
+  return <div>Movie not found!</div>;
+}
+
 
   return (
     <>
@@ -87,6 +126,6 @@ export const MovieView = ({ movies, onBackClick }) => {
       </Link>
     </>
   );
-};
+
 
 export default MovieView;
