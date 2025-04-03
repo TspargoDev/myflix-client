@@ -116,3 +116,6 @@ return (
   </Row>
 );
 };
+
+
+export default MainView;
