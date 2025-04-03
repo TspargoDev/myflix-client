@@ -1,68 +1,56 @@
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import React from "react";
+import { Container, Nav, Navbar } from "react-bootstrap";
+import { Link } from "react-router";
 
-export const NavigationBar = ({ onLoggedOut }) => {
-  const user = useSelector((state) => state.user.user);
+export const NavigationBar = ({ user, onLoggedOut }) => {
+
+  const genreSearch = () => {
+    
+  }
 
   return (
-    <Navbar bg="light" expand="lg" className="pb-5 fixed-top">
+    <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/" className="d-md-flex align-items-center fw-bold fs-2">
-          myFlix
+        <Navbar.Brand as={Link} to="/">
+          MyFlixDB
         </Navbar.Brand>
-
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-          <Nav className="gap-3">
-            {/* Home Link */}
-            <Nav.Item>
-              <Nav.Link href="/" className="fs-5">
-                Home
-              </Nav.Link>
-            </Nav.Item>
-
-            {/* Signup Link */}
-            <Nav.Item>
-              <Nav.Link href="/signup" className="m-3">
-                Signup
-              </Nav.Link>
-            </Nav.Item>
-
-            {/* Conditional Login/Logout Link */}
-            <Nav.Item>
-              {user ? (
-                <Nav.Link onClick={onLoggedOut} className="m-3">
-                  Logout
-                </Nav.Link>
-              ) : (
-                <Nav.Link href="/login" className="m-3">
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {!user && (
+              <>
+                <Nav.Link as={Link} to="/login">
                   Login
                 </Nav.Link>
-              )}
-            </Nav.Item>
+                <Nav.Link as={Link} to="/signup">
+                  Signup
+                </Nav.Link>
+              </>
+            )}
+            {user && user._id && (
+              <>
+                <Nav.Link as={Link} to={`/users/${encodeURIComponent(user._id)}`}>Movies</Nav.Link>
+                {/* Profile link using <Link> directly */}
+                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
 
-            {/* Profile Link */}
-            <Nav.Item>
-              <Nav.Link href="/profile" className="m-3">
-                Profile
-              </Nav.Link>
-            </Nav.Item>
-
-            {/* Signed-in User Display */}
-            <Nav.Item>
-              <div className="bg-primary m-3 px-4 text-white d-flex align-items-center rounded-3 gap-2">
-                <span className="text-white fs-5">
-                  Signed in as: {user ? user.Username : "Guest"}
-                </span>
-              </div>
-            </Nav.Item>
+                {/* Log Out link */}
+                <Nav.Link as={Link} to="/" onClick={onLoggedOut}>Log Out</Nav.Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
+};
+
+// Prop validation
+NavigationBar.propTypes = {
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired, // Validate the _id property of user
+  }).isRequired,
+  onLoggedOut: PropTypes.func.isRequired, // Validate that onLoggedOut is a function
 };
 
 export default NavigationBar;
