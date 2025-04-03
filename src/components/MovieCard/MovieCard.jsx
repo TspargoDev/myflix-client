@@ -1,28 +1,106 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, Card } from 'react-bootstrap';
+// Import the PropTypes library
+import PropTypes from "prop-types";
+import React from "react";
+import { Button, Card } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
-export const MovieCard = ({ movie, onMovieClick }) => {
-  console.log(movie);
+
+// The MovieCard function component
+export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) => {
+  console.log(loggedInUsername);
+  // Check if the movies is in the user's favorites list
+  const urlAPI = "https://travismovie-api-f55e5b0e3ed5.herokuapp.com";
+  const isFavorite = user?.FavoriteMovies.includes(movie._id);
+  
+  // Used for routing to movies view for button
+  const navigate = useNavigate();
+
+  console.log("User prop:", user);
+
+  function handleClick() {
+    navigate(`/movies/${encodeURIComponent(movie._id)}`);
+  }
+
+  // Handle toggle of the favorite movies
+  const handleFavoriteToggle = () => {
+    console.log(loggedInUsername);
+    const movieID = movie._id;
+
+    const method = isFavorite ? "DELETE" : "POST"; // DELETE for unfavorite, POST for favorite
+
+    //Favorite movie check
+    if (isFavorite && method === "POST") {
+      console.log("Movie is already in the favorites list. No action taken.");
+      return;
+    }
+
+    fetch(`${urlAPI}/users/${loggedInUsername}/movies/${movieID}`, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token if required
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then((updatedUser) => {
+        updateFavorites(updatedUser.FavoriteMovies); // Update favorites list
+        setIsFavorite(updatedUser.FavoriteMovies.some((movie) => movie._id === movieID));
+      })
+      .catch((err) => {
+        console.error("Failed to update favorites:", err);
+      });
+  };
+
   return (
-      <Card className="h-100">
-          <Card.Img variant="top" src={movie.imagePath} className="w-100" />
-          <Card.Body>
-              <Card.Title>{movie.title}</Card.Title>
-              <Card.Text>{movie.director.name}</Card.Text>
-              <Button onClick={() => onMovieClick(movie)} variant="link">
-                  Open
-              </Button>
-          </Card.Body>
-      </Card>
+    <Card>
+      <Card.Img variant="top" src={movie.ImagePath} />
+      <Card.Body>
+        <Card.Title>{movie.Title}</Card.Title>
+        <Card.Text>{movie.Director.Name}</Card.Text>
+        <Card.Text>{movie.Genre.Name}</Card.Text>
+        {/*<Card.Text>{movie.Description}</Card.Text>*/}
+          {/* <Link to={`/movies/${encodeURIComponent(movie._id)}`}> */}
+            <Button 
+              variant="link" 
+              onClick={() => {
+                handleClick();
+              }}
+              >
+              Open
+            </Button>
+          {/*</Link>*/}
+          {/* Favorite Button */}
+          <Button 
+          variant={isFavorite ? "danger" : "primary"}
+          onClick={handleFavoriteToggle}
+        >
+          {isFavorite ? "Unfavorite" : "Favorite"}
+        </Button>
+      </Card.Body>
+    </Card>
   );
 };
 
+// Defined props constraints for the MovieCard
 MovieCard.propTypes = {
   movie: PropTypes.shape({
-      title: PropTypes.string
+    _id: PropTypes.string.isRequired,
+    Title: PropTypes.string,
+    Director: PropTypes.string,
+    Genre: PropTypes.string,
+    Description: PropTypes.string,
+    ImagePath: PropTypes.string
   }).isRequired,
-  onMovieClick: PropTypes.func.isRequired
+  user: PropTypes.shape({
+    FavoriteMovies: PropTypes.arrayOf(PropTypes.string) // Array of movie ids
+  }).isRequired,
+  updateFavorites: PropTypes.func.isRequired, // Function to update favorites
+  loggedInUsername: PropTypes.string.isRequired
 };
 
 export default MovieCard;
