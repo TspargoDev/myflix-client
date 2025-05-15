@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { MovieCard } from "../movie-card/movie-card";
+import { MovieCard } from "../MovieCard/MovieCard";
 
 export const ProfileView = ({ movies }) => {
   const localUser = JSON.parse(localStorage.getItem("user"));
+  
+  // Define useState hooks before any conditional returns
+  const [username, setUsername] = useState(localUser?.Username || "");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(localUser?.Email || "");
+  const [birthday, setBirthday] = useState(localUser?.Birthday || "01/01/0001");
   
   if (!localUser) {
     return <p>Please log in to view and edit your profile.</p>;
@@ -12,11 +18,6 @@ export const ProfileView = ({ movies }) => {
   const favMovies = movies.filter((movie) => {
     return localUser.FavoriteMovies.includes(movie._id);
   });
-
-  const [username, setUsername] = useState(localUser.Username || "");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState(localUser.Email || "");
-  const [birthday, setBirthday] = useState(localUser.Birthday || "01/01/0001");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,7 +29,7 @@ export const ProfileView = ({ movies }) => {
       Birthday: birthday
     };
 
-    fetch(`https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users/${localUser.Username}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/users/${localUser.Username}`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {

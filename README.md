@@ -44,7 +44,7 @@ myFlix is designed for movie enthusiasts to easily access, explore, and save inf
 - Routing: Uses React Router for in-app navigation and URL sharing.
 - Search Functionality: Quickly find movies with an in-app search.
 - Responsive Design: Built with Bootstrap for a mobile-friendly experience.
-- React Redux: For managing app-wide state, such as filtering movies.
+- React Framework: Built with Create React App for a standardized and stable development environment.
 
 ## Getting Started
 

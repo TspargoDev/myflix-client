@@ -22,7 +22,7 @@ export const SignupView = () => {
 
     try {
       const response = await fetch(
-        "https://travismovie-api-f55e5b0e3ed5.herokuapp.com/users",
+        `${process.env.REACT_APP_API_URL}/users`,
         {
           method: "POST",
           headers: {
@@ -39,7 +39,7 @@ export const SignupView = () => {
         );
       }
 
-      const responseData = await response.json();
+      await response.json();
       setSuccessMessage("Signup successful! Please login.");
       setError(null);
 

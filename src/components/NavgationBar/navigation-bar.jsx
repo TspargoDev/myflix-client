@@ -1,14 +1,9 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export const NavigationBar = ({ user, onLoggedOut }) => {
-
-  const genreSearch = () => {
-    
-  }
-
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -28,9 +23,9 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
                 </Nav.Link>
               </>
             )}
-            {user && user._id && (
+            {user && (
               <>
-                <Nav.Link as={Link} to={`/users/${encodeURIComponent(user._id)}`}>Movies</Nav.Link>
+                <Nav.Link as={Link} to="/">Movies</Nav.Link>
                 {/* Profile link using <Link> directly */}
                 <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
 
@@ -47,9 +42,12 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
 
 // Prop validation
 NavigationBar.propTypes = {
-  user: PropTypes.shape({
-    _id: PropTypes.string.isRequired, // Validate the _id property of user
-  }).isRequired,
+  user: PropTypes.oneOfType([
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired, // Validate the _id property of user when user exists
+    }),
+    PropTypes.oneOf([null]), // Allow null when user is not logged in
+  ]),
   onLoggedOut: PropTypes.func.isRequired, // Validate that onLoggedOut is a function
 };
 

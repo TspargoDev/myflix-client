@@ -20,7 +20,7 @@ const LoginView = ({ onLoggedIn }) => {
 
     try {
       const response = await fetch(
-        "https://travismovie-api-f55e5b0e3ed5.herokuapp.com/login",
+        `${process.env.REACT_APP_API_URL}/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

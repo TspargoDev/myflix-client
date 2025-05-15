@@ -2,14 +2,13 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Button, Card } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 
 // The MovieCard function component
 export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) => {
   console.log(loggedInUsername);
   // Check if the movies is in the user's favorites list
-  const urlAPI = "https://travismovie-api-f55e5b0e3ed5.herokuapp.com";
   const isFavorite = user?.FavoriteMovies.includes(movie._id);
   
   // Used for routing to movies view for button
@@ -34,7 +33,7 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
       return;
     }
 
-    fetch(`${urlAPI}/users/${loggedInUsername}/movies/${movieID}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/users/${loggedInUsername}/movies/${movieID}`, {
       method: method,
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +48,7 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
       })
       .then((updatedUser) => {
         updateFavorites(updatedUser.FavoriteMovies); // Update favorites list
-        setIsFavorite(updatedUser.FavoriteMovies.some((movie) => movie._id === movieID));
+        // Remove the setIsFavorite call as it's not defined
       })
       .catch((err) => {
         console.error("Failed to update favorites:", err);

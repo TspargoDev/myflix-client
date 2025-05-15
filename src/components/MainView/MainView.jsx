@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LoginView from '../LoginView/login-view';
 import MovieCard from '../MovieCard/MovieCard';
 import MovieView from '../MovieView/Movie-view';
 import SignupView from '../SignupView/signup-view';
+import NavigationBar from '../NavgationBar/navigation-bar';
+import ProfileView from '../ProfileView/profile-view';
 
   export const MainView = () => {
-    const urlAPI = "https://travismovie-api-f55e5b0e3ed5.herokuapp.com";
+    const urlAPI = process.env.REACT_APP_API_URL;
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
   
 
     // Initialize state from local storage
     const [movies, setMovies] = useState([]);
-    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [filteredMovies, setFilteredMovies] = useState([]);
+    const [searchVal, setSearchVal] = useState("");
+    // Removed unused selectedMovie state
     const [user, setUser] = useState(storedUser);
     const [token, setToken] = useState(storedToken);
     
@@ -36,7 +41,7 @@ import SignupView from '../SignupView/signup-view';
           console.log(data);
           setMovies(data);
         });
-    }, [token]);
+    }, [token, urlAPI]);
 
     // Filters movies as the user types
     useEffect(() => {
