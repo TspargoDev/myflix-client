@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import LoginView from '../LoginView/login-view';
 import MovieCard from '../MovieCard/MovieCard';
 import MovieView from '../MovieView/Movie-view';
-import SignupView from '../SignupView/signup-view';
 import NavigationBar from '../NavgationBar/navigation-bar';
 import ProfileView from '../ProfileView/profile-view';
+import SignupView from '../SignupView/signup-view';
 
   export const MainView = () => {
     const urlAPI = process.env.REACT_APP_API_URL;
@@ -18,7 +18,6 @@ import ProfileView from '../ProfileView/profile-view';
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [searchVal, setSearchVal] = useState("");
-    // Removed unused selectedMovie state
     const [user, setUser] = useState(storedUser);
     const [token, setToken] = useState(storedToken);
     
