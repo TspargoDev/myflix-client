@@ -12,7 +12,7 @@ export const MovieView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  const [token, setToken] = useState(storedToken);
+  const [token] = useState(storedToken);
 
 
   useEffect(() => {
