@@ -16,7 +16,7 @@ export const ProfileView = ({ movies }) => {
   }
 
   const favMovies = movies.filter((movie) => {
-    return localUser.FavoriteMovies.includes(movie._id);
+    return localUser.FavoriteMovies?.includes(movie._id);
   });
 
   const handleSubmit = (event) => {
@@ -98,7 +98,17 @@ export const ProfileView = ({ movies }) => {
       <div className="favorite-movies">
         {favMovies.length > 0 ? (
           favMovies.map((movie) => (
-            <MovieCard key={movie._id} movie={movie} />
+            <MovieCard 
+              key={movie._id} 
+              movie={movie} 
+              user={localUser}
+              updateFavorites={(updatedFavorites) => {
+                const updatedUser = { ...localUser, FavoriteMovies: updatedFavorites };
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+                window.location.reload(); // Reload to reflect changes
+              }}
+              loggedInUsername={localUser.Username}
+            />
           ))
         ) : (
           <p>You have no favorite movies.</p>

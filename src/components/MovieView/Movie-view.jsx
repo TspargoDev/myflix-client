@@ -3,19 +3,28 @@ import { Link, useParams } from "react-router-dom";
 import "./movie-view.scss";
 
 export const MovieView = () => {
+  const urlAPI = process.env.REACT_APP_API_URL; // Using environment variable for API URL
+  const storedToken = localStorage.getItem("token");
+
+
   const { movieId } = useParams();
   const [currentMovie, setCurrentMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  const urlAPI = "https://travismovie-api-f55e5b0e3ed5.herokuapp.com"; // API URL
+  const [token, setToken] = useState(storedToken);
+
 
   useEffect(() => {
     // Fetch movie data from the API when the component mounts or movieId changes
     const fetchMovie = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${urlAPI}/movies/${movieId}`);
+        const response = await fetch(`${urlAPI}/movies/${movieId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         
         if (!response.ok) {
           throw new Error("Failed to fetch movie data");
@@ -30,7 +39,7 @@ export const MovieView = () => {
       }
     };
     fetchMovie();
-  }, [movieId]); // Re-run the effect if the movieId changes
+  }, [movieId, token, urlAPI]); // Re-run the effect if the movieId or token changes
 
   if (loading) {
     return <div>Loading...</div>;

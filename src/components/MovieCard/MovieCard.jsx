@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) => {
   console.log(loggedInUsername);
   // Check if the movies is in the user's favorites list
-  const isFavorite = user?.FavoriteMovies.includes(movie._id);
+  const isFavorite = user?.FavoriteMovies?.includes(movie._id);
   
   // Used for routing to movies view for button
   const navigate = useNavigate();
@@ -60,8 +60,8 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
       <Card.Img variant="top" src={movie.ImagePath} />
       <Card.Body>
         <Card.Title>{movie.Title}</Card.Title>
-        <Card.Text>{movie.Director.Name}</Card.Text>
-        <Card.Text>{movie.Genre.Name}</Card.Text>
+        <Card.Text>{movie.Director?.Name}</Card.Text>
+        <Card.Text>{movie.Genre?.Name}</Card.Text>
         {/*<Card.Text>{movie.Description}</Card.Text>*/}
           {/* <Link to={`/movies/${encodeURIComponent(movie._id)}`}> */}
             <Button 
