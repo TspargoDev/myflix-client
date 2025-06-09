@@ -3,34 +3,30 @@ import { Link, useParams } from "react-router-dom";
 import "./movie-view.scss";
 
 export const MovieView = () => {
-  const urlAPI = process.env.REACT_APP_API_URL; // Using environment variable for API URL
+  const urlAPI = process.env.REACT_APP_API_URL; // Environment API URL
   const storedToken = localStorage.getItem("token");
-
 
   const { movieId } = useParams();
   const [currentMovie, setCurrentMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  const [token] = useState(storedToken);
-
 
   useEffect(() => {
-    // Fetch movie data from the API when the component mounts or movieId changes
     const fetchMovie = async () => {
       try {
         setLoading(true);
         const response = await fetch(`${urlAPI}/movies/${movieId}`, {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${storedToken}`,
+          },
         });
-        
+
         if (!response.ok) {
           throw new Error("Failed to fetch movie data");
         }
-        
+
         const movie = await response.json();
+        console.log("Fetched movie:", movie); // Debug log to check response shape
         setCurrentMovie(movie);
       } catch (err) {
         setError(err.message);
@@ -38,42 +34,44 @@ export const MovieView = () => {
         setLoading(false);
       }
     };
-    fetchMovie();
-  }, [movieId, token, urlAPI]); // Re-run the effect if the movieId or token changes
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    if (storedToken && movieId) {
+      fetchMovie();
+    }
+  }, [movieId, storedToken, urlAPI]);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!currentMovie) {
-    return <div>Movie not found!</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!currentMovie) return <div>Movie not found!</div>;
 
   return (
-    <div>
+    <div className="movie-view">
+      {currentMovie.ImageURL && (
+        <img
+          src={currentMovie.ImageURL}
+          alt={`${currentMovie.Title} poster`}
+          className="movie-poster"
+        />
+      )}
       <div>
-        <span>Title: </span>
-        <span>{currentMovie.Title}</span>
+        <strong>Title:</strong> <span>{currentMovie.Title}</span>
       </div>
       <div>
-        <span>Description: </span>
-        <span>{currentMovie.Description}</span>
+        <strong>Description:</strong> <span>{currentMovie.Description}</span>
       </div>
-      <div>
-        <span>Genre: </span>
-        <span>{currentMovie.Genre.Name}</span>
-        <p>{currentMovie.Genre.Description}</p>
-      </div>
-      <div>
-        <span>Directed by: </span>
-        <span>{currentMovie.Director.Name}</span>
-        <p>{currentMovie.Director.Bio}</p>
-      </div>
-      <Link to={`/`}>
+      {currentMovie.Genre?.Name && (
+        <div>
+          <strong>Genre:</strong> <span>{currentMovie.Genre.Name}</span>
+          <p>{currentMovie.Genre.Description}</p>
+        </div>
+      )}
+      {currentMovie.Director?.Name && (
+        <div>
+          <strong>Directed by:</strong> <span>{currentMovie.Director.Name}</span>
+          <p>{currentMovie.Director.Bio}</p>
+        </div>
+      )}
+      <Link to="/">
         <button className="back-button">Back</button>
       </Link>
     </div>

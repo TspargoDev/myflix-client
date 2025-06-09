@@ -4,17 +4,12 @@ import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-
 // The MovieCard function component
 export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) => {
-  console.log(loggedInUsername);
-  // Check if the movies is in the user's favorites list
+  // Check if the movie is in the user's favorites list
   const isFavorite = user?.FavoriteMovies?.includes(movie._id);
-  
-  // Used for routing to movies view for button
-  const navigate = useNavigate();
 
-  console.log("User prop:", user);
+  const navigate = useNavigate();
 
   function handleClick() {
     navigate(`/movies/${encodeURIComponent(movie._id)}`);
@@ -22,12 +17,9 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
 
   // Handle toggle of the favorite movies
   const handleFavoriteToggle = () => {
-    console.log(loggedInUsername);
     const movieID = movie._id;
+    const method = isFavorite ? "DELETE" : "POST";
 
-    const method = isFavorite ? "DELETE" : "POST"; // DELETE for unfavorite, POST for favorite
-
-    //Favorite movie check
     if (isFavorite && method === "POST") {
       console.log("Movie is already in the favorites list. No action taken.");
       return;
@@ -37,8 +29,8 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
       method: method,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token if required
-      },
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
     })
       .then((response) => {
         if (!response.ok) {
@@ -47,8 +39,7 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
         return response.json();
       })
       .then((updatedUser) => {
-        updateFavorites(updatedUser.FavoriteMovies); // Update favorites list
-        // Remove the setIsFavorite call as it's not defined
+        updateFavorites(updatedUser.FavoriteMovies);
       })
       .catch((err) => {
         console.error("Failed to update favorites:", err);
@@ -56,28 +47,25 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
   };
 
   return (
-    <Card>
-      <Card.Img variant="top" src={movie.ImagePath} />
+    <Card className="movie-card">
+      <Card.Img
+        variant="top"
+        src={movie.ImageURL}
+        alt={movie.Title}
+        onError={(e) => {
+          e.target.src = "https://via.placeholder.com/300x450?text=No+Image";
+        }}
+      />
       <Card.Body>
         <Card.Title>{movie.Title}</Card.Title>
         <Card.Text>{movie.Director?.Name}</Card.Text>
         <Card.Text>{movie.Genre?.Name}</Card.Text>
-        {/*<Card.Text>{movie.Description}</Card.Text>*/}
-          {/* <Link to={`/movies/${encodeURIComponent(movie._id)}`}> */}
-            <Button 
-              variant="link" 
-              onClick={() => {
-                handleClick();
-              }}
-              >
-              Open
-            </Button>
-          {/*</Link>*/}
-          {/* Favorite Button */}
-          <Button 
-          variant={isFavorite ? "danger" : "primary"}
-          onClick={handleFavoriteToggle}
-        >
+
+        <Button variant="link" onClick={handleClick}>
+          Open
+        </Button>
+
+        <Button variant={isFavorite ? "danger" : "primary"} onClick={handleFavoriteToggle}>
           {isFavorite ? "Unfavorite" : "Favorite"}
         </Button>
       </Card.Body>
@@ -89,16 +77,24 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
 MovieCard.propTypes = {
   movie: PropTypes.shape({
     _id: PropTypes.string.isRequired,
-    Title: PropTypes.string,
-    Director: PropTypes.string,
-    Genre: PropTypes.string,
-    Description: PropTypes.string,
-    ImagePath: PropTypes.string
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    ImageURL: PropTypes.string.isRequired,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string.isRequired
+    }).isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Bio: PropTypes.string.isRequired,
+      Birth: PropTypes.string,
+      Death: PropTypes.string
+    }).isRequired
   }).isRequired,
   user: PropTypes.shape({
-    FavoriteMovies: PropTypes.arrayOf(PropTypes.string) // Array of movie ids
+    FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
   }).isRequired,
-  updateFavorites: PropTypes.func.isRequired, // Function to update favorites
+  updateFavorites: PropTypes.func.isRequired,
   loggedInUsername: PropTypes.string.isRequired
 };
 

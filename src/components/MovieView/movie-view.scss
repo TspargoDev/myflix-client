@@ -1,14 +1,14 @@
 .back-button {
   padding: 6px 18px;
-  color: #000;  // Black text for button
-  background-color: transparent;  // Transparent background
-  border: 1px solid #000;  // Thin black border
+  color: #000; /* Black text for button */
+  background-color: transparent; /* Transparent background */
+  border: 1px solid #000; /* Thin black border */
   border-radius: 3px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 
   &:hover {
-    background-color: #333;  // Darker gray on hover
-    color: #fff;  // White text on hover
+    background-color: #333; /* Darker gray on hover */
+    color: #fff; /* White text on hover */
     transform: translateY(-2px);
     cursor: pointer;
   }
@@ -16,50 +16,50 @@
 
 .nav {
   color: #000;
-  font-weight: 500;  // Reduce weight for minimalism
+  font-weight: 500; /* Reduce weight for minimalism */
 }
 
 .movie-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;  // White background
-  border: 1px solid #dcdcdc;  // Thin light-gray border
-  border-radius: 3px;  // Minimal rounding
+  background-color: #fff; /* White background */
+  border: 1px solid #dcdcdc; /* Thin light-gray border */
+  border-radius: 3px; /* Minimal rounding */
 }
 
 .movie-container img {
   max-width: 100%;
   margin-bottom: 20px;
-  border-radius: 3px;  // Minimal rounding
-  border: 1px solid #dcdcdc;  // Thin border around images
+  border-radius: 3px; /* Minimal rounding */
+  border: 1px solid #dcdcdc; /* Thin border around images */
 }
 
 .list-group-item {
-  background-color: transparent;  // Transparent for minimal look
-  border: 1px solid #dcdcdc;  // Thin light-gray border
+  background-color: transparent; /* Transparent for minimal look */
+  border: 1px solid #dcdcdc; /* Thin light-gray border */
   padding: 10px 15px;
   font-size: 1rem;
   line-height: 1.5;
   border-radius: 3px;
   margin-bottom: 10px;
-  color: #333;  // Dark gray for neutral text color
+  color: #333; /* Dark gray for neutral text color */
 }
 
 h5 {
-  color: #000;  // Black for headings
+  color: #000; /* Black for headings */
   margin-bottom: 10px;
-  font-weight: 400;  // Lighter font weight
+  font-weight: 400; /* Lighter font weight */
 }
 
 strong {
-  color: #555;  // Softer gray for strong tags
+  color: #555; /* Softer gray for strong tags */
 }
 
 button {
   font-size: 0.9rem;
-  font-weight: 400;  // Lighter font weight
-  border: 1px solid #000;  // Thin black border
+  font-weight: 400; /* Lighter font weight */
+  border: 1px solid #000; /* Thin black border */
   background: transparent;
   color: #000;
   border-radius: 3px;
@@ -67,8 +67,8 @@ button {
   transition: background-color 0.2s, color 0.2s;
 
   &:hover {
-    background-color: #000;  // Black background on hover
-    color: #fff;  // White text on hover
+    background-color: #000; /* Black background on hover */
+    color: #fff; /* White text on hover */
   }
 }
 
@@ -77,3 +77,4 @@ button {
     padding: 15px;
   }
 }
+
