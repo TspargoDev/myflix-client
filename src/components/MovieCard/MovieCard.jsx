@@ -16,14 +16,11 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
   }
 
   // Handle toggle of the favorite movies
-  const handleFavoriteToggle = () => {
+  const handleFavoriteToggle = (e) => {
+    e.stopPropagation();
+    console.log("Favorite button clicked!");
     const movieID = movie._id;
     const method = isFavorite ? "DELETE" : "POST";
-
-    if (isFavorite && method === "POST") {
-      console.log("Movie is already in the favorites list. No action taken.");
-      return;
-    }
 
     fetch(`${process.env.REACT_APP_API_URL}/users/${loggedInUsername}/movies/${movieID}`, {
       method: method,
@@ -58,8 +55,14 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
       />
       <Card.Body>
         <Card.Title>{movie.Title}</Card.Title>
-        <Card.Text>{movie.Director?.Name}</Card.Text>
-        <Card.Text>{movie.Genre?.Name}</Card.Text>
+
+        <Card.Text className="movie-director">
+          {movie.Director?.Name}
+        </Card.Text>
+
+        <Card.Text className="movie-genre">
+          {movie.Genre?.Name}
+        </Card.Text>
 
         <Button variant="link" onClick={handleClick}>
           Open
