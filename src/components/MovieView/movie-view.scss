@@ -1,80 +1,90 @@
+/* Back button styling */
 .back-button {
   padding: 6px 18px;
-  color: #000; /* Black text for button */
+  color: #000; /* Black text */
   background-color: transparent; /* Transparent background */
   border: 1px solid #000; /* Thin black border */
-  border-radius: 3px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 3px; /* Slightly rounded corners */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover transition */
 
+  /* Hover effect: dark background, white text, and slight lift */
   &:hover {
-    background-color: #333; /* Darker gray on hover */
-    color: #fff; /* White text on hover */
-    transform: translateY(-2px);
-    cursor: pointer;
+    background-color: #333; /* Dark gray background */
+    color: #fff; /* White text */
+    transform: translateY(-2px); /* Raise button slightly */
+    cursor: pointer; /* Pointer cursor on hover */
   }
 }
 
+/* Navigation text styling */
 .nav {
-  color: #000;
-  font-weight: 500; /* Reduce weight for minimalism */
+  color: #000; /* Black text */
+  font-weight: 500; /* Medium font weight for subtle emphasis */
 }
 
+/* Container for movie details */
 .movie-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff; /* White background */
-  border: 1px solid #dcdcdc; /* Thin light-gray border */
-  border-radius: 3px; /* Minimal rounding */
+  max-width: 800px; /* Max width for readability */
+  margin: 0 auto; /* Center horizontally */
+  padding: 20px; /* Internal spacing */
+  background-color: #fff; /* White background for contrast */
+  border: 1px solid #dcdcdc; /* Light gray border for subtle separation */
+  border-radius: 3px; /* Slight rounding of corners */
 }
 
+/* Images inside movie container */
 .movie-container img {
-  max-width: 100%;
-  margin-bottom: 20px;
-  border-radius: 3px; /* Minimal rounding */
-  border: 1px solid #dcdcdc; /* Thin border around images */
+  max-width: 100%; /* Responsive width */
+  margin-bottom: 20px; /* Space below images */
+  border-radius: 3px; /* Rounded corners to match container */
+  border: 1px solid #dcdcdc; /* Light gray border around images */
 }
 
+/* Styling for list group items */
 .list-group-item {
-  background-color: transparent; /* Transparent for minimal look */
-  border: 1px solid #dcdcdc; /* Thin light-gray border */
-  padding: 10px 15px;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: 3px;
-  margin-bottom: 10px;
-  color: #333; /* Dark gray for neutral text color */
+  background-color: transparent; /* Transparent for minimalistic style */
+  border: 1px solid #dcdcdc; /* Light gray border */
+  padding: 10px 15px; /* Comfortable padding */
+  font-size: 1rem; /* Standard readable font size */
+  line-height: 1.5; /* Improve readability */
+  border-radius: 3px; /* Rounded corners */
+  margin-bottom: 10px; /* Spacing between items */
+  color: #333; /* Dark gray text for neutral appearance */
 }
 
+/* Headings (h5) */
 h5 {
-  color: #000; /* Black for headings */
-  margin-bottom: 10px;
-  font-weight: 400; /* Lighter font weight */
+  color: #000; /* Black text for strong emphasis */
+  margin-bottom: 10px; /* Spacing below headings */
+  font-weight: 400; /* Regular font weight for balance */
 }
 
+/* Strong tag styling */
 strong {
-  color: #555; /* Softer gray for strong tags */
+  color: #555; /* Softer gray to reduce visual harshness */
 }
 
+/* Generic button styles */
 button {
-  font-size: 0.9rem;
-  font-weight: 400; /* Lighter font weight */
+  font-size: 0.9rem; /* Slightly smaller font */
+  font-weight: 400; /* Regular font weight */
   border: 1px solid #000; /* Thin black border */
-  background: transparent;
-  color: #000;
-  border-radius: 3px;
-  padding: 8px 12px;
-  transition: background-color 0.2s, color 0.2s;
+  background: transparent; /* Transparent background */
+  color: #000; /* Black text */
+  border-radius: 3px; /* Rounded corners */
+  padding: 8px 12px; /* Padding inside buttons */
+  transition: background-color 0.2s, color 0.2s; /* Smooth color transitions */
 
+  /* Hover state for buttons */
   &:hover {
-    background-color: #000; /* Black background on hover */
-    color: #fff; /* White text on hover */
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
   }
 }
 
+/* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   .movie-container {
-    padding: 15px;
+    padding: 15px; /* Reduce padding on smaller devices */
   }
 }
-
