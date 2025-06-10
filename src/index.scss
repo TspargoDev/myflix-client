@@ -1,14 +1,15 @@
 // ================================
 // Variables - Colors & Themes
 // ================================
-$primary: #e50914;          // Bold Netflix red
-$accent: #f3c600;           // Purple gradient pop (note: comment says purple but hex is yellowish)
-$gold: #f5c518;             // IMDb-style gold
-$bg-dark: #1c1c1c;          // Dark cinematic background
-$bg-light: #2a2a2a;         // Slightly lighter for cards
-$text-light: #f1f1f1;       // Light text
-$border-color: #444;        // Dark border
-$focus-color: #ffcc00;      // Highlighted focus color
+$primary: #D72631;           // Bright dark crimson (main red)
+$accent: #F08A5D;            // Soft coral/orange (for accents)
+$gold: #F5C518;              // IMDb-style gold (keep for some highlights if you want)
+$bg-dark: #1B1B1E;           // Almost black, slightly warm dark background
+$bg-light: #2E2E38;          // Dark blue-gray for cards and panels
+$text-light: #E8E8E8;        // Light gray text for contrast
+$border-color: #2E2E38;      // Dark blue-gray border
+$focus-color: #F08A5D;       // Accent color for focus states (soft coral)
+$director-color: #F5C518;
 
 // ================================
 // Imports
@@ -85,6 +86,43 @@ button {
   }
 }
 
+.btn-favorite {
+  background-color: transparent;
+  color: $primary;               // Bold Netflix red for favorite
+  border: 1.5px solid $primary;
+  border-radius: 3px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  margin-left: 10px;            // spacing between buttons
+
+  &:hover {
+    background-color: $primary;
+    color: #000;
+    border-color: darken($primary, 10%);
+  }
+}
+
+// New custom Open button styles
+.btn-open {
+  background-color: transparent;
+  color: $accent;
+  border: 1.5px solid $accent;
+  border-radius: 3px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  margin-right: 10px; // Add spacing between open and favorite buttons
+
+  &:hover {
+    background-color: $accent;
+    color: #000;
+    border-color: darken($accent, 10%);
+  }
+}
+
 // ================================
 // Forms & Inputs
 // ================================
@@ -110,7 +148,7 @@ input[type="text"] {
 
   &:focus {
     border-color: $primary;
-    box-shadow: 0 0 8px rgba(229, 9, 20, 0.8);
+    box-shadow: 0 0 8px rgba(215, 38, 49, 0.8);
     background-color: $bg-dark;
     color: #fff;
   }
@@ -134,7 +172,7 @@ input[type="text"] {
 
   &:focus {
     border-color: $primary !important;
-    box-shadow: 0 0 8px rgba(229, 9, 20, 0.8) !important;
+    box-shadow: 0 0 8px rgba(215, 38, 49, 0.8) !important;
     background-color: $bg-dark !important;
     color: #fff !important;
   }
@@ -162,7 +200,7 @@ form {
 
     &:focus {
       border-color: $focus-color;
-      box-shadow: 0 0 0 0.2rem rgba(255, 204, 0, 0.25);
+      box-shadow: 0 0 0 0.2rem rgba(240, 138, 93, 0.25);
     }
   }
 
@@ -177,7 +215,7 @@ form {
 
     &:focus {
       border-color: $focus-color;
-      box-shadow: 0 0 0 0.2rem rgba(255, 204, 0, 0.25);
+      box-shadow: 0 0 0 0.2rem rgba(240, 138, 93, 0.25);
     }
   }
 }
@@ -242,20 +280,19 @@ form {
   }
 }
 
-
 .profile-card input[type="file"] {
-  display: block;         
-  margin: 0 auto 20px;    
+  display: block;
+  margin: 0 auto 20px;
   padding: 8px;
   font-size: 1rem;
   color: $text-light;
-  background-color: transparent !important;  
+  background-color: transparent !important;
   border: 1px solid $border-color;
   border-radius: 3px;
   cursor: pointer;
 
   &::-webkit-file-upload-button {
-    background: transparent !important;      
+    background: transparent !important;
     border: none;
     padding: 5px 10px;
     color: $gold;
@@ -270,7 +307,7 @@ form {
   }
 
   &::-moz-file-upload-button {
-    background: transparent !important;      
+    background: transparent !important;
     border: none;
     padding: 5px 10px;
     color: $gold;
@@ -284,7 +321,6 @@ form {
     }
   }
 }
-
 
 // ================================
 // Update Account Section
@@ -316,33 +352,33 @@ form {
   border-radius: 6px;
   margin: 20px;
   padding: 15px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: $text-light;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 10px rgba(215, 38, 49, 0.5); // subtle red glow
   }
 
   h5 {
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 10px;
-    color: $gold;
+    color: $primary;
   }
 
   p {
     margin: 0;
-    color: $text-light;
   }
 
   .movie-director {
-    color: #5c6bc0; // Soft indigo-blue
+    color: $director-color;
     font-weight: 600;
     margin-top: 10px;
     margin-bottom: 6px;
   }
 
   .movie-genre {
-    color: #26c6da; // Bright cyan/teal
+    color: $accent;
     font-style: italic;
     font-weight: 500;
     margin-bottom: 10px;

@@ -82,12 +82,15 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
         </Card.Text>
 
         {/* Button to open detailed movie view */}
-        <Button variant="link" onClick={handleClick}>
+        <Button className="btn-open" onClick={handleClick}>
           Open
         </Button>
 
         {/* Button to toggle favorite status */}
-        <Button variant={isFavorite ? "danger" : "primary"} onClick={handleFavoriteToggle}>
+        <Button
+          className={`btn-favorite ${isFavorite ? "favorite-active" : ""}`}
+          onClick={handleFavoriteToggle}
+        >
           {isFavorite ? "Unfavorite" : "Favorite"}
         </Button>
       </Card.Body>
