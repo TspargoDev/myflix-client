@@ -1,90 +1,118 @@
-/* Back button styling */
-.back-button {
-  padding: 6px 18px;
-  color: #000; /* Black text */
-  background-color: transparent; /* Transparent background */
-  border: 1px solid #000; /* Thin black border */
-  border-radius: 3px; /* Slightly rounded corners */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover transition */
+// -------------------------------------------------------------
+// Variables
+// -------------------------------------------------------------
+$primary: #D72631;           // Bright dark crimson (main red)
+$accent: #F08A5D;            // Soft coral/orange (for accents)
+$gold: #F5C518;              // IMDb-style gold (optional highlights)
+$bg-dark: #1B1B1E;           // Almost black, slightly warm dark background
+$bg-light: #2E2E38;          // Dark blue-gray for cards and panels
+$text-light: #E8E8E8;        // Light gray text for contrast
+$border-color: #2E2E38;      // Dark blue-gray border
+$focus-color: $accent;       // Accent color for focus states (soft coral)
 
-  /* Hover effect: dark background, white text, and slight lift */
-  &:hover {
-    background-color: #333; /* Dark gray background */
-    color: #fff; /* White text */
-    transform: translateY(-2px); /* Raise button slightly */
-    cursor: pointer; /* Pointer cursor on hover */
+// -------------------------------------------------------------
+// Base Styles
+// -------------------------------------------------------------
+.movie-view {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: $bg-dark;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  color: $text-light;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// -------------------------------------------------------------
+// Movie Poster
+// -------------------------------------------------------------
+.movie-view {
+  .movie-poster {
+    width: 300px;
+    height: 450px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+    margin-bottom: 1.5rem;
+    border: 2px solid transparent;  // no visible border normally
+    transition: border-color 0.3s ease;
+
+    &:hover {
+      border-color: $primary;  // show red border on hover
+      cursor: pointer;         // change cursor to pointer on hover
+    }
   }
 }
 
-/* Navigation text styling */
-.nav {
-  color: #000; /* Black text */
-  font-weight: 500; /* Medium font weight for subtle emphasis */
-}
+// -------------------------------------------------------------
+// Movie Details
+// -------------------------------------------------------------
+.movie-view {
+  .movie-details {
+    width: 100%;
 
-/* Container for movie details */
-.movie-container {
-  max-width: 800px; /* Max width for readability */
-  margin: 0 auto; /* Center horizontally */
-  padding: 20px; /* Internal spacing */
-  background-color: #fff; /* White background for contrast */
-  border: 1px solid #dcdcdc; /* Light gray border for subtle separation */
-  border-radius: 3px; /* Slight rounding of corners */
-}
+    div {
+      margin-bottom: 1rem;
+      line-height: 1.4;
 
-/* Images inside movie container */
-.movie-container img {
-  max-width: 100%; /* Responsive width */
-  margin-bottom: 20px; /* Space below images */
-  border-radius: 3px; /* Rounded corners to match container */
-  border: 1px solid #dcdcdc; /* Light gray border around images */
-}
+      strong {
+        color: $primary;
+        font-weight: 600;
+      }
 
-/* Styling for list group items */
-.list-group-item {
-  background-color: transparent; /* Transparent for minimalistic style */
-  border: 1px solid #dcdcdc; /* Light gray border */
-  padding: 10px 15px; /* Comfortable padding */
-  font-size: 1rem; /* Standard readable font size */
-  line-height: 1.5; /* Improve readability */
-  border-radius: 3px; /* Rounded corners */
-  margin-bottom: 10px; /* Spacing between items */
-  color: #333; /* Dark gray text for neutral appearance */
-}
-
-/* Headings (h5) */
-h5 {
-  color: #000; /* Black text for strong emphasis */
-  margin-bottom: 10px; /* Spacing below headings */
-  font-weight: 400; /* Regular font weight for balance */
-}
-
-/* Strong tag styling */
-strong {
-  color: #555; /* Softer gray to reduce visual harshness */
-}
-
-/* Generic button styles */
-button {
-  font-size: 0.9rem; /* Slightly smaller font */
-  font-weight: 400; /* Regular font weight */
-  border: 1px solid #000; /* Thin black border */
-  background: transparent; /* Transparent background */
-  color: #000; /* Black text */
-  border-radius: 3px; /* Rounded corners */
-  padding: 8px 12px; /* Padding inside buttons */
-  transition: background-color 0.2s, color 0.2s; /* Smooth color transitions */
-
-  /* Hover state for buttons */
-  &:hover {
-    background-color: #000; /* Black background */
-    color: #fff; /* White text */
+      p {
+        margin-top: 0.3rem;
+        font-size: 0.9rem;
+        color: $accent;
+      }
+    }
   }
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-  .movie-container {
-    padding: 15px; /* Reduce padding on smaller devices */
+// -------------------------------------------------------------
+// Back Button 
+// -------------------------------------------------------------
+.movie-view {
+  .back-button {
+    background-color: transparent;
+    color: $accent;
+    border: 1.5px solid $accent;
+    border-radius: 3px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    margin-top: 2rem;
+
+    &:hover {
+      background-color: $accent;
+      color: #000;
+      border-color: darken($accent, 10%);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba($accent, 0.7);
+    }
+  }
+}
+
+// -------------------------------------------------------------
+// Responsive Styles
+// -------------------------------------------------------------
+@media (max-width: 480px) {
+  .movie-view {
+    max-width: 95%;
+    padding: 1rem;
+
+    .movie-poster {
+      width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+    }
   }
 }
