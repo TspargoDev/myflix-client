@@ -3,19 +3,21 @@ import { Button, Card, Col, Form, Image, Row } from "react-bootstrap";
 import { MovieCard } from "../MovieCard/MovieCard";
 
 export const ProfileView = ({ movies }) => {
-  // Retrieve user data and profile picture from localStorage
-  const localUser = JSON.parse(localStorage.getItem("user"));
+  // Initialize state from localStorage user on mount
+  const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedProfilePic = localStorage.getItem("profilePic");
 
-  // Initialize state for profile fields and profile picture
-  const [username, setUsername] = useState(localUser?.Username || "");
-  const [password, setPassword] = useState(""); // Password is blank initially for security
-  const [email, setEmail] = useState(localUser?.Email || "");
-  const [birthday, setBirthday] = useState(localUser?.Birthday || "01/01/0001");
+  // Store user info in state for reactive updates
+  const [user, setUser] = useState(storedUser);
   const [profilePic, setProfilePic] = useState(storedProfilePic || "");
 
-  // If no user is logged in, prompt to log in
-  if (!localUser) {
+  // Use user data or defaults for form inputs
+  const [username, setUsername] = useState(user?.Username || "");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(user?.Email || "");
+  const [birthday, setBirthday] = useState(user?.Birthday || "01/01/0001");
+
+  if (!user) {
     return (
       <p className="text-center mt-4">
         Please log in to view and edit your profile.
@@ -23,22 +25,16 @@ export const ProfileView = ({ movies }) => {
     );
   }
 
-  // Filter favorite movies based on IDs stored in user's data
+  // Filter favorite movies using current user state
   const favMovies = movies.filter((movie) =>
-    localUser.FavoriteMovies?.includes(movie._id)
+    user.FavoriteMovies?.includes(movie._id)
   );
 
-  /**
-   * Handles uploading and previewing profile picture.
-   * Reads the image file and stores it in localStorage as a base64 string.
-   * @param {Event} e - File input change event
-   */
   const handlePicUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        // Save the image as base64 string in localStorage and update state
         localStorage.setItem("profilePic", reader.result);
         setProfilePic(reader.result);
       };
@@ -46,25 +42,17 @@ export const ProfileView = ({ movies }) => {
     }
   };
 
-  /**
-   * Handles form submission to update user profile.
-   * Sends PUT request to update user data on the backend.
-   * @param {Event} event - Form submission event
-   */
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Prepare data object for updating user profile
     const data = {
       Username: username,
-      // Include password only if it's changed (not blank)
       ...(password && { Password: password }),
       Email: email,
       Birthday: birthday,
     };
 
-    // Send update request to backend API with authorization token
-    fetch(`${process.env.REACT_APP_API_URL}/users/${localUser.Username}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/users/${user.Username}`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
@@ -75,9 +63,9 @@ export const ProfileView = ({ movies }) => {
       if (response.ok) {
         alert("Profile updated successfully");
         response.json().then((updatedUser) => {
-          // Update user info in localStorage and reload page to reflect changes
+          // Update localStorage and state so UI updates without reload
           localStorage.setItem("user", JSON.stringify(updatedUser));
-          window.location.reload();
+          setUser(updatedUser);
         });
       } else {
         alert("Profile update failed");
@@ -87,12 +75,10 @@ export const ProfileView = ({ movies }) => {
 
   return (
     <div className="profile-container">
-      {/* Profile editing card */}
       <Card className="profile-card text-center">
         <Card.Body>
           <h2 className="mb-3">Edit Profile</h2>
 
-          {/* Profile picture display and upload */}
           <div className="mb-4">
             <Image
               src={profilePic || "https://via.placeholder.com/150?text=Profile"}
@@ -111,9 +97,7 @@ export const ProfileView = ({ movies }) => {
             </Form.Group>
           </div>
 
-          {/* Profile update form */}
           <Form onSubmit={handleSubmit}>
-            {/* Username input */}
             <Form.Group controlId="formUsername" className="mb-3">
               <Form.Label>Username</Form.Label>
               <Form.Control
@@ -125,7 +109,6 @@ export const ProfileView = ({ movies }) => {
               />
             </Form.Group>
 
-            {/* Password input - optional */}
             <Form.Group controlId="formPassword" className="mb-3">
               <Form.Label>Password (leave blank to keep unchanged)</Form.Label>
               <Form.Control
@@ -135,7 +118,6 @@ export const ProfileView = ({ movies }) => {
               />
             </Form.Group>
 
-            {/* Email input */}
             <Form.Group controlId="formEmail" className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -146,7 +128,6 @@ export const ProfileView = ({ movies }) => {
               />
             </Form.Group>
 
-            {/* Birthday input */}
             <Form.Group controlId="formBdate" className="mb-4">
               <Form.Label>Birthday</Form.Label>
               <Form.Control
@@ -157,7 +138,6 @@ export const ProfileView = ({ movies }) => {
               />
             </Form.Group>
 
-            {/* Submit button */}
             <div className="d-grid">
               <Button variant="primary" type="submit">
                 Save Changes
@@ -167,7 +147,6 @@ export const ProfileView = ({ movies }) => {
         </Card.Body>
       </Card>
 
-      {/* Favorite movies section */}
       <div className="favorite-movies-section mt-5">
         <h3 className="text-center mb-4">Your Favorite Movies</h3>
         <Row xs={1} sm={2} md={3} lg={4} className="g-4">
@@ -176,17 +155,17 @@ export const ProfileView = ({ movies }) => {
               <Col key={movie._id}>
                 <MovieCard
                   movie={movie}
-                  user={localUser}
+                  user={user}
                   updateFavorites={(updatedFavorites) => {
-                    // Update favorite movies in localStorage and reload to refresh UI
+                    // Update user state & localStorage to update favorites in UI
                     const updatedUser = {
-                      ...localUser,
+                      ...user,
                       FavoriteMovies: updatedFavorites,
                     };
+                    setUser(updatedUser);
                     localStorage.setItem("user", JSON.stringify(updatedUser));
-                    window.location.reload();
                   }}
-                  loggedInUsername={localUser.Username}
+                  loggedInUsername={user.Username}
                 />
               </Col>
             ))

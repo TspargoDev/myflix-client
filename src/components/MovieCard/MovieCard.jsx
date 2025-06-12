@@ -26,11 +26,26 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
     console.log("Favorite button clicked!");
 
     const movieID = movie._id;
-    // Choose HTTP method based on whether the movie is already a favorite
     const method = isFavorite ? "DELETE" : "POST";
 
+    // Try getting the username from props or from localStorage
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const username =
+      user?.Username ||
+      user?.username ||
+      storedUser?.Username ||
+      storedUser?.username;
+
+    if (!username) {
+      console.error("Username is missing from both props and localStorage.");
+      return;
+    }
+
+    const requestUrl = `${process.env.REACT_APP_API_URL}/users/${username}/movies/${movieID}`;
+    console.log("Sending request to:", requestUrl);
+
     // Send request to backend API to update user's favorite movies
-    fetch(`${process.env.REACT_APP_API_URL}/users/${loggedInUsername}/movies/${movieID}`, {
+    fetch(requestUrl, {
       method: method,
       headers: {
         "Content-Type": "application/json",
@@ -39,18 +54,14 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
     })
       .then((response) => {
         if (!response.ok) {
-          // If response is not ok, throw an error to be caught in catch block
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        // Parse the JSON response containing the updated user data
         return response.json();
       })
       .then((updatedUser) => {
-        // Update the favorites state in the parent component with new favorites list
         updateFavorites(updatedUser.FavoriteMovies);
       })
       .catch((err) => {
-        // Log any errors encountered during the request
         console.error("Failed to update favorites:", err);
       });
   };
@@ -63,7 +74,6 @@ export const MovieCard = ({ movie, user, updateFavorites, loggedInUsername }) =>
         src={movie.ImageURL}
         alt={movie.Title}
         onError={(e) => {
-          // Replace broken image with placeholder image
           e.target.src = "https://via.placeholder.com/300x450?text=No+Image";
         }}
       />
